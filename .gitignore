@@ -1,0 +1,9 @@
+.vscode
+
+*.exe
+
+github_link.txt
+
+experiments/
+submission/
+Offline 5 Heap/

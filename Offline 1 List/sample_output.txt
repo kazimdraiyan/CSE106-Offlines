@@ -1,0 +1,111 @@
+Insert 1
+[ 1| ]
+Insert 2
+Capacity increased from 2 to 4
+[ 1 2| ]
+Insert 3
+Capacity increased from 4 to 8
+[ 1 2 3| ]
+Insert 4
+[ 1 2 3 4| ]
+Insert 5
+Capacity increased from 8 to 16
+[ 1 2 3 4 5| ]
+Insert 6
+[ 1 2 3 4 5 6| ]
+Prev 2
+[ 1 2 3 4| 5 6 ]
+Insert 0
+[ 1 2 3 4 0| 5 6 ]
+Delete current item
+[ 1 2 3 4 5| 6 ]
+0 is deleted
+Delete 5
+[ 1 2 3 4 6| ]
+Delete 3
+[ 1 2 4| 6 ]
+Delete 100
+100 not found
+Delete current item
+Capacity decreased from 16 to 8
+[ 1 2 6| ]
+4 is deleted
+Delete current item
+[ 1 2| ]
+6 is deleted
+Delete current item
+Capacity decreased from 8 to 4
+[ 1| ]
+2 is deleted
+Delete current item
+Capacity decreased from 4 to 2
+[ . ]
+1 is deleted
+Append 7
+[ 7| ]
+Append 8
+Capacity increased from 2 to 4
+[ 7| 8 ]
+Append 9
+Capacity increased from 4 to 8
+[ 7| 8 9 ]
+Append 10
+[ 7| 8 9 10 ]
+Size of the list is 4
+8 is present
+11 is not present
+Append 11
+Capacity increased from 8 to 16
+[ 7| 8 9 10 11 ]
+Swap index 1 and 3
+[ 7| 10 9 8 11 ]
+Next 10
+[ 7 10 9 8 11| ]
+Prev 3
+[ 7 10| 9 8 11 ]
+Clear list
+[ . ]
+Insert 12
+[ 12| ]
+Insert 50
+Capacity increased from 2 to 4
+[ 12 50| ]
+Insert 34
+Capacity increased from 4 to 8
+[ 12 50 34| ]
+Search 5
+5 is not found
+Search 12
+[ 12| 50 34 ]
+12 is found at 0
+Find 5
+5 is not a valid index
+Find -1
+-1 is not a valid index
+Find 1
+[ 12 50| 34 ]
+50 is found at 1
+Update element at 5
+5 is not a valid index
+Update element at 2
+[ 12 50 5| ]
+34 is updated by 5
+Trim
+[ 12 50| ]
+5 removed
+Insert 15
+[ 12 50 15| ]
+Prev 2
+[ 12| 50 15 ]
+Trim
+[ 12| 50 ]
+15 removed
+Reverse
+[ 50| 12 ]
+Insert 15
+[ 50 15| 12 ]
+Insert 20
+[ 50 15 20| 12 ]
+Reverse
+[ 12 20 15| 50 ]
+End
