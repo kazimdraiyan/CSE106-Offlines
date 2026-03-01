@@ -1,0 +1,5 @@
+Total Cost: 3.00
+Edges:
+1 2
+2 3
+3 4

@@ -1,0 +1,77 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, hmargin=0.8in, vmargin=1.2in]{geometry}
+
+\usepackage{amsmath}
+% \usepackage{amssymb}
+
+\begin{document}
+\title{Time Complexity Analysis of Offline-6}
+\author{Kazi Md. Raiyan (2405103)}
+\maketitle
+
+\section{Functions}
+\begin{itemize}
+    \item STL \texttt{sort(\ldots)}: Sorts $ n $ cities in the acsending order based on their $ x $-coordinates.
+    \item \texttt{connect\_cities(\ldots)}: Connects the cities recursively in the divide-and-conquer approach with sufficiently low-cost edges.
+    \item \texttt{connect\_cities\_naively(\ldots)}: Serves as the base case for the recursive \texttt{connect\_cities(\ldots)} function, which uses bruteforce to check all possible edges and greedily add the lowest-cost edge to connect the cities.
+    \item \texttt{connect\_split\_cities(\ldots)}: Connects the cities across the dividing line in the divide-and-conquer approach by checking all possible edges within a certain range from the dividing line and adds the lowest-cost edge to connect the cities across the dividing line.
+    \item \texttt{UndirectedGraph::add\_edge(\ldots)}: Adds an edge between two nodes in the graph.
+    \item \texttt{UndirectedGraph::is\_connected(\ldots)}: Checks whether the two passed nodes are connected in the graph using Depth First Search (DFS)
+\end{itemize}
+
+\section{Time Complexity Analysis}
+\subsection{STL \texttt{sort(\ldots)}}
+This is the built-in sorting function of C++, which uses a comparison-based sorting algorithm. Therefore, its time complexity is $ O(n \log n) $ for sorting $ n $ elements.\\
+This is used to sort $ n $ cities. Thus this function contributes $ \boldsymbol{O(n \log n)} $ to the overall time complexity of the algorithm.
+
+\subsection{\texttt{UndirectedGraph::add\_edge(\ldots)}}
+This function adds an edge between two nodes in the graph. It involves updating the adjacency list. An \texttt{unordered\_map} is used to store the adjacency list, and the average time complexity of insertion in an \texttt{unordered\_map} is $ O(1) $. Therefore, the time complexity of this function is $ \boldsymbol{O(1)} $.
+
+\subsection{\texttt{UndirectedGraph::is\_connected(\ldots)}}
+This function checks whether two nodes are connected in the graph using Depth First Search (DFS). In the worst case, DFS visits all nodes and edges in the graph. Therefore, its time complexity is $ \boldsymbol{O(n + e)} $, where $ n $ is the number of nodes and $ e $ is the number of edges in the graph.\\
+
+\subsection{connect\_cities\_naively(\ldots)}
+This function is used to connect $ m $ cities in the bruteforce manner.\\
+\textbf{Step 1:} First, it uses two nested loops to check all possible pairs of cities and add the edges in a vector, which takes $ \boldsymbol{O(m^2)} $ time.\\
+\textbf{Step 2:} Then, it sorts the vector of edges based on their costs. The cost function is a simple arithmetic operation, which takes constant time. Therefore, sorting the edges takes $ O(m^2 \log m^2) = \boldsymbol{O(m^2 \log m)} $ time.\\
+\textbf{Step 3:} Finally, it iterates through the sorted edges and adds them to the graph until all cities are connected. In every iteration, it check whether the two cities are already connected using the \texttt{UndirectedGraph::is\_connected(\ldots)} function, which takes $ O(m) $ time in the worst case. If not connected, adds the edge to the vector and the graph using the \texttt{UndirectedGraph::add\_edge(\ldots)} function, which takes constant time. Since there can be at most $ O(m^2) $ edges, this step takes $ \boldsymbol{O(m^3)} $ time in the worst case.\\
+\textbf{Overall:} The overall time complexity of the \texttt{connect\_cities\_naively(\ldots)} function is dominated by the last step, which is $ \boldsymbol{O(m^3)} $, where $ m $ is the number of cities in the base case.
+
+\subsection{connect\_split\_cities(\ldots)}
+This function is used to connect $ m $ cities across the dividing line in the divide-and-conquer approach. It simply uses two nested loops to check all possible pairs of cities across the dividing line within the $ m $ range and finds the minimum cost edge. Therefore, the time complexity of this function is $ \boldsymbol{O(m^2)} $.
+
+\subsection{connect\_cities(\ldots)}
+This is the main recursive function that connects the cities using the divide-and-conquer approach.\\
+\textbf{Base Case:} If the number of cities is less than or equal to $ m $. It calls the \texttt{connect\_cities\_naively(\ldots)} function, which takes $ O(m^3) $ time.\\
+\textbf{Divide:} It divides the cities into two halves and recursively calls itself on each half.\\
+\textbf{Merge:} After connecting the cities in the left and right halves, it calls the \texttt{connect\_split\_cities(\ldots)} function to connect the cities across the dividing line, which takes $ O(m^2) $ time.\\
+\textbf{Recurrence Relation:} Thus, the time complexity of this function can be expressed as the following recurrence relation:
+    $$ T(n) = \begin{cases} 
+        2T \left( \dfrac{n}{2} \right) + O(m^2) & n > m\\
+        O(m^3) & n \leq m
+   \end{cases} $$
+where $ n $ is the number of cities in the current subproblem and $ m $ is the number of cities in the base case.\\
+\textbf{Recursion Tree Approach:}
+\begin{itemize}
+    \item \textbf{Leaf nodes (base cases):}\\
+    The cities are divided into two halves until the number of cities in the subproblem is less than or equal to $ m $.\\
+    Therefore, $ m \approx \dfrac{n}{2^k} $, where $ k $ is the height of the recursion tree.
+    Therefore, the number of leaves in the recursion tree is $ 2^k \approx \dfrac{n}{m} $.\\
+    So, the total time taken by the base cases is $ O(m^3) \cdot \dfrac{n}{m} = O(n m^2) $.\\
+    \item \textbf{Internal nodes (merge steps):}\\
+    Each internal node of the recursion tree takes $ O(m^2) $ time to connect the cities across the dividing line. The number of internal nodes is roughly the same as the number of leaves.\\
+    Therefore, the total time taken by the internal nodes is $ O(m^2) \cdot \dfrac{n}{m} = O(n m) $.\\
+    \item \textbf{Overall:}\\
+    As per the problem statement, $ 2 \leq m \leq 50 $.
+    Hence we can treat $ m $ as a constant. Therefore, total time taken by the base cases is $ O(n) $ and the total time taken by the internal nodes is also $ O(n) $.\\
+    Therefore, the overall time complexity of the \texttt{connect\_cities(\ldots)} function is $ \boldsymbol{O(n)} $ for sufficiently large $ n $.\\
+\end{itemize}
+\textbf{Master Theorem Approach:}\\
+As $ m $ is a small constant, the recurrence relation can be simplified to $$ T(n) = 2T \left( \dfrac{n}{2} \right) + O(1) $$ for sufficiently large $ n $. 
+Using the Master Theorem, we have $ a = 2 $, $ b = 2 $, and $ f(n) = O(1) $. Therefore, $ \log_b a = \log_2 2 = 1 $. So, this is the first case of the Master Theorem. Thus, the solution to the recurrence is $ T(n) = O(n^{\log_b a}) = O(n) $.\\
+Thus, the overall time complexity of the \texttt{connect\_cities(\ldots)} function is $ \boldsymbol{O(n)} $ for sufficiently large $ n $.
+
+\subsection{Overall Time Complexity}
+The overall time complexity of the algorithm is dominated by the \textbf{sorting step}. Therefore, the overall time complexity of the algorithm is \fbox{$ \boldsymbol{O(n \log n)} $} for sufficiently large $ n $.
+\end{document}
